@@ -101,15 +101,19 @@ export default function Level3Boat({ quitGame, onNextLevel, character, playerNam
         {/* Scene: Background banks */}
         <div className="absolute top-0 left-0 right-0 h-[200px] bg-green-400 border-b-8 border-green-600 rounded-b-3xl z-0"></div>
         <div className="absolute bottom-0 left-0 right-0 h-[200px] bg-green-400 border-t-8 border-green-600 rounded-t-3xl z-0">
-          {/* Standing Character on Bank */}
           {character && (
             <div className="absolute bottom-6 left-12 z-20 flex items-center gap-3">
-              <CharacterSprite 
-                id={character.id} 
-                size={110} 
-                mood={isWin ? 'cheer' : 'idle'} 
-              />
-              <div className="bg-white/80 px-3 py-1 rounded-full text-sm font-black text-slate-700 shadow-sm">
+              <div className="flex flex-col items-center">
+                <CharacterSprite 
+                  id={character.id} 
+                  size={110} 
+                  mood={isWin ? 'cheer' : 'idle'} 
+                />
+                <div className="bg-white/80 backdrop-blur-xs px-3 py-1 rounded-full text-sm font-black text-slate-700 shadow-sm mt-1">
+                  {playerName}
+                </div>
+              </div>
+              <div className="bg-white/80 px-3 py-1 rounded-full text-sm font-black text-slate-700 shadow-sm mb-12">
                 ช่วยเก็บหินหน่อยนะ! 🪨
               </div>
             </div>

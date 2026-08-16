@@ -127,6 +127,9 @@ export default function Level2Dam({ quitGame, onNextLevel, character, playerName
                     size={100} 
                     mood={isWin ? 'cheer' : isPressing ? 'jump' : 'idle'} 
                   />
+                  <div className="bg-white/80 backdrop-blur-xs px-3 py-1 rounded-full text-sm font-black text-slate-700 shadow-sm mt-1">
+                    {playerName}
+                  </div>
                 </div>
               )}
               {/* Button */}

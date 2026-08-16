@@ -214,6 +214,9 @@ export default function Level4Quiz({ quitGame, onNextLevel, character, playerNam
                       size={90} 
                       mood={selectedOption ? 'cheer' : 'happy'} 
                     />
+                    <div className="bg-sky-100/80 px-3 py-1 rounded-full text-xs font-black text-sky-700 shadow-sm mt-1">
+                      {playerName}
+                    </div>
                   </div>
                 )}
                 <div className="flex-1 bg-white rounded-3xl p-6 sm:p-8 shadow-lg border-4 border-sky-200 relative">
