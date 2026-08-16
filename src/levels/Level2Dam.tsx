@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { Home, Volume2, VolumeX, RotateCcw, Zap } from 'lucide-react';
+import CharacterSprite from '../components/CharacterSprite';
 
 export default function Level2Dam({ quitGame, onNextLevel, character, playSound, isSoundOn, toggleSound }: any) {
   const [isPressing, setIsPressing] = useState(false);
@@ -99,7 +100,16 @@ export default function Level2Dam({ quitGame, onNextLevel, character, playSound,
            </div>
            
            {/* Dam Wall */}
-           <div className="flex-1 bg-slate-500 relative flex items-center justify-center">
+           <div className="flex-1 bg-slate-500 relative flex flex-col items-center justify-center gap-3">
+              {character && (
+                <div className="flex flex-col items-center">
+                  <CharacterSprite 
+                    id={character.id} 
+                    size={100} 
+                    mood={isWin ? 'cheer' : isPressing ? 'jump' : 'idle'} 
+                  />
+                </div>
+              )}
               {/* Button */}
               <button 
                 onMouseDown={() => setIsPressing(true)}
@@ -108,10 +118,10 @@ export default function Level2Dam({ quitGame, onNextLevel, character, playSound,
                 onTouchStart={() => setIsPressing(true)}
                 onTouchEnd={() => setIsPressing(false)}
                 className={`
-                  w-32 h-32 rounded-full border-8 font-black text-3xl shadow-2xl transition-all select-none touch-none
-                  ${isPressing ? 'bg-amber-500 border-amber-600 scale-95 shadow-none text-white' : 'bg-rose-500 border-rose-600 text-white pb-4'}
+                  w-28 h-28 rounded-full border-6 font-black text-2xl shadow-2xl transition-all select-none touch-none cursor-pointer
+                  ${isPressing ? 'bg-amber-500 border-amber-600 scale-95 shadow-none text-white' : 'bg-rose-500 border-rose-600 text-white pb-3'}
                 `}
-                style={!isPressing ? { boxShadow: '0 10px 0 #9f1239' } : {}}
+                style={!isPressing ? { boxShadow: '0 8px 0 #9f1239' } : {}}
               >
                 กดน้ำ!
               </button>

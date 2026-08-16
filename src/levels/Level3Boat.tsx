@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { Home, Volume2, VolumeX, RotateCcw, AlertTriangle } from 'lucide-react';
+import CharacterSprite from '../components/CharacterSprite';
 
 export default function Level3Boat({ quitGame, onNextLevel, character, playSound, isSoundOn, toggleSound }: any) {
   const [rocks, setRocks] = useState([
@@ -80,7 +81,21 @@ export default function Level3Boat({ quitGame, onNextLevel, character, playSound
 
         {/* Scene: Background banks */}
         <div className="absolute top-0 left-0 right-0 h-[200px] bg-green-400 border-b-8 border-green-600 rounded-b-3xl z-0"></div>
-        <div className="absolute bottom-0 left-0 right-0 h-[200px] bg-green-400 border-t-8 border-green-600 rounded-t-3xl z-0"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-[200px] bg-green-400 border-t-8 border-green-600 rounded-t-3xl z-0">
+          {/* Standing Character on Bank */}
+          {character && (
+            <div className="absolute bottom-6 left-12 z-20 flex items-center gap-3">
+              <CharacterSprite 
+                id={character.id} 
+                size={110} 
+                mood={isWin ? 'cheer' : 'idle'} 
+              />
+              <div className="bg-white/80 px-3 py-1 rounded-full text-sm font-black text-slate-700 shadow-sm">
+                ช่วยเก็บหินหน่อยนะ! 🪨
+              </div>
+            </div>
+          )}
+        </div>
 
         {/* Scene: River */}
         <div className="absolute top-[180px] bottom-[180px] left-0 right-0 bg-blue-400 z-0 flex items-center justify-center overflow-hidden">
@@ -119,7 +134,7 @@ export default function Level3Boat({ quitGame, onNextLevel, character, playSound
             key={rock.id}
             drag
             dragMomentum={false}
-            onDragEnd={(e, info) => handleDragEnd(rock.id, info)}
+            onDragEnd={(_, info) => handleDragEnd(rock.id, info)}
             initial={{ x: rock.startX, y: rock.startY, scale: 1 }}
             animate={rock.removed ? { scale: 0.5, opacity: 0.5 } : { scale: 1, opacity: 1 }}
             className={`absolute z-20 text-7xl cursor-grab active:cursor-grabbing drop-shadow-md ${rock.removed ? 'pointer-events-none' : ''}`}

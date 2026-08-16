@@ -1,4 +1,4 @@
-import { useRef, useCallback, useState, useEffect } from 'react';
+import { useRef, useCallback, useState } from 'react';
 
 export function useAudio() {
   const audioCtxRef = useRef<AudioContext | null>(null);

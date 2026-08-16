@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Volume2, VolumeX, RotateCcw, Star, CheckCircle2, XCircle, Home } from 'lucide-react';
+import CharacterSprite from '../components/CharacterSprite';
 
 // ข้อมูลคำถามและรูปภาพ (ใช้ Emoji ตัวใหญ่แทนรูปภาพเพื่อให้มีสีสันสดใสดึงดูดเด็ก)
 const QUIZ_DATA = [
@@ -121,13 +122,24 @@ export default function Level4Quiz({ quitGame, onNextLevel, character, playSound
               className="flex-1 flex flex-col"
             >
               {/* Question Text */}
-              <div className="bg-white rounded-3xl p-6 sm:p-8 mb-8 shadow-lg border-4 border-sky-200 relative">
-                <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-sky-500 text-white font-black text-xl px-6 py-2 rounded-full shadow-md">
-                  ข้อที่ {currentQuestion + 1} / {QUIZ_DATA.length}
+              <div className="flex items-center gap-4 mb-6">
+                {character && (
+                  <div className="hidden sm:flex flex-col items-center shrink-0">
+                    <CharacterSprite 
+                      id={character.id} 
+                      size={90} 
+                      mood={selectedOption ? 'cheer' : 'happy'} 
+                    />
+                  </div>
+                )}
+                <div className="flex-1 bg-white rounded-3xl p-6 sm:p-8 shadow-lg border-4 border-sky-200 relative">
+                  <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-sky-500 text-white font-black text-xl px-6 py-2 rounded-full shadow-md">
+                    ข้อที่ {currentQuestion + 1} / {QUIZ_DATA.length}
+                  </div>
+                  <h2 className="text-2xl sm:text-3xl font-black text-slate-700 text-center leading-relaxed mt-3">
+                    {question.question}
+                  </h2>
                 </div>
-                <h2 className="text-3xl sm:text-4xl font-black text-slate-700 text-center leading-relaxed mt-4">
-                  {question.question}
-                </h2>
               </div>
 
               {/* Options */}

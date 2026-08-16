@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { Home, Volume2, VolumeX, RotateCcw, Droplets } from 'lucide-react';
+import CharacterSprite from '../components/CharacterSprite';
 
 export default function Level1Garden({ quitGame, onNextLevel, character, playSound, isSoundOn, toggleSound }: any) {
   const [gateY, setGateY] = useState(0);
@@ -220,6 +221,20 @@ export default function Level1Garden({ quitGame, onNextLevel, character, playSou
             {isWin ? '🐰💖' : '🐰'}
           </motion.div>
         </div>
+
+        {/* Standing Character */}
+        {character && (
+          <div className="absolute bottom-20 left-[260px] z-20 flex flex-col items-center">
+            <CharacterSprite 
+              id={character.id} 
+              size={110} 
+              mood={isWin ? 'cheer' : isWaterFlowing ? 'happy' : 'idle'} 
+            />
+            <div className="bg-white/80 backdrop-blur-xs px-3 py-0.5 rounded-full text-xs font-black text-slate-700 shadow-xs mt-1">
+              {character.name}
+            </div>
+          </div>
+        )}
 
         {/* River at bottom */}
         <div className="absolute bottom-0 left-0 right-0 h-16 bg-blue-500 border-t-8 border-blue-600">
