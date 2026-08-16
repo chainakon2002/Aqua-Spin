@@ -199,7 +199,7 @@ function App() {
 
             {/* Leaderboard Section for Start Screen */}
             <div className="w-full lg:w-[400px] bg-amber-50 rounded-3xl p-4 sm:p-6 border-4 border-amber-200 shadow-inner max-h-[250px] lg:max-h-[300px] flex flex-col">
-              <h3 className="text-xl sm:text-2xl font-black text-amber-600 text-center mb-3">🏆 ทำเนียบคนเก่ง 🏆</h3>
+              <h3 className="text-xl sm:text-2xl font-black text-amber-600 text-center mb-3">🏆 🏆</h3>
               <div className="flex flex-col gap-2 overflow-y-auto pr-2 flex-1">
                 {leaderboard.slice(0, 5).map((entry, index) => (
                   <div key={entry.id} className="flex items-center justify-between bg-white p-2 sm:p-3 rounded-xl shadow-sm border-2 border-slate-100">
