@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Database & Environment
+*.sqlite
+*.db
+.env
+.env.*
+!.env.example

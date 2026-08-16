@@ -3,7 +3,7 @@ import { motion, useAnimation } from 'framer-motion';
 import { Home, Volume2, VolumeX, RotateCcw, Droplets } from 'lucide-react';
 import CharacterSprite from '../components/CharacterSprite';
 
-export default function Level1Garden({ quitGame, onNextLevel, character, playSound, isSoundOn, toggleSound }: any) {
+export default function Level1Garden({ quitGame, onNextLevel, character, playerName, playSound, isSoundOn, toggleSound }: any) {
   const [gateY, setGateY] = useState(0);
   const [isWaterFlowing, setIsWaterFlowing] = useState(false);
   const [plantGrowth, setPlantGrowth] = useState(0); // 0 to 100
@@ -60,6 +60,15 @@ export default function Level1Garden({ quitGame, onNextLevel, character, playSou
     return () => clearInterval(interval);
   }, [isWaterFlowing, isWin, playSound]);
 
+  const speakInstruction = () => {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance("ลากประตูน้ำขึ้น เพื่อปล่อยน้ำไปหมุนกังหัน");
+    utterance.lang = 'th-TH';
+    utterance.pitch = 1.3; 
+    utterance.rate = 0.95; 
+    window.speechSynthesis.speak(utterance);
+  };
+
   const resetLevel = () => {
     setGateY(0);
     setIsWaterFlowing(false);
@@ -99,8 +108,15 @@ export default function Level1Garden({ quitGame, onNextLevel, character, playSou
         
         {/* Instruction */}
         {!isWin && plantGrowth === 0 && (
-          <div className="absolute top-10 left-1/2 -translate-x-1/2 bg-white/80 px-6 py-3 rounded-full text-xl font-bold text-green-700 shadow-md animate-bounce z-30">
-            ลากประตูน้ำขึ้น เพื่อปล่อยน้ำไปหมุนกังหัน! 👆
+          <div className="absolute top-10 left-1/2 -translate-x-1/2 bg-white/90 px-6 py-3 rounded-full text-xl font-bold text-green-700 shadow-md animate-bounce z-30 flex items-center gap-3">
+            <span>ลากประตูน้ำขึ้น เพื่อปล่อยน้ำไปหมุนกังหัน! 👆</span>
+            <button 
+              onClick={speakInstruction}
+              className="bg-green-100 p-2 rounded-full hover:bg-green-200 transition-colors shadow-sm active:scale-95"
+              title="ฟังคำอธิบาย"
+            >
+              <Volume2 size={24} className="text-green-600" />
+            </button>
           </div>
         )}
 
@@ -109,22 +125,22 @@ export default function Level1Garden({ quitGame, onNextLevel, character, playSou
         {/* Water Source (Upper River) */}
         <div className="absolute top-20 left-0 w-32 h-64 bg-blue-400 border-r-8 border-b-8 border-blue-600 rounded-br-3xl flex justify-center z-10">
           {/* Sluice Gate Mechanism */}
-          <div className="w-16 h-full bg-slate-700 absolute right-[-8px] flex justify-center">
+          <div className="w-20 h-full bg-slate-700 absolute right-[-10px] flex justify-center">
             <motion.div
               drag="y"
-              dragConstraints={{ top: -100, bottom: 0 }}
-              dragElastic={0.1}
-              onDrag={(_, info) => setGateY(info.point.y - info.offset.y < -40 ? info.offset.y : Math.max(info.offset.y, -100))}
+              dragConstraints={{ top: -120, bottom: 0 }}
+              dragElastic={0.2}
+              onDrag={(_, info) => setGateY(info.point.y - info.offset.y < -50 ? info.offset.y : Math.max(info.offset.y, -120))}
               onDragEnd={(_, info) => {
-                if (info.offset.y < -40) setGateY(-80);
+                if (info.offset.y < -50) setGateY(-100);
                 else setGateY(0);
               }}
               animate={{ y: gateY }}
-              className="w-20 h-32 bg-stone-400 border-4 border-stone-600 absolute bottom-0 rounded-t-md cursor-grab active:cursor-grabbing flex items-center justify-center flex-col gap-2 shadow-lg"
+              className={`w-28 h-40 bg-stone-400 border-8 border-stone-600 absolute bottom-0 rounded-t-xl cursor-grab active:cursor-grabbing flex items-center justify-center flex-col gap-3 shadow-2xl ${gateY === 0 ? 'animate-pulse' : ''}`}
             >
-               <div className="w-8 h-2 bg-stone-600 rounded-full"></div>
-               <div className="w-8 h-2 bg-stone-600 rounded-full"></div>
-               <div className="w-8 h-2 bg-stone-600 rounded-full"></div>
+               <div className="w-12 h-3 bg-stone-600 rounded-full"></div>
+               <div className="w-12 h-3 bg-stone-600 rounded-full"></div>
+               <div className="w-12 h-3 bg-stone-600 rounded-full"></div>
             </motion.div>
           </div>
         </div>
@@ -230,8 +246,8 @@ export default function Level1Garden({ quitGame, onNextLevel, character, playSou
               size={110} 
               mood={isWin ? 'cheer' : isWaterFlowing ? 'happy' : 'idle'} 
             />
-            <div className="bg-white/80 backdrop-blur-xs px-3 py-0.5 rounded-full text-xs font-black text-slate-700 shadow-xs mt-1">
-              {character.name}
+            <div className="bg-white/80 backdrop-blur-xs px-3 py-1 rounded-full text-sm font-black text-slate-700 shadow-sm mt-1">
+              {playerName}
             </div>
           </div>
         )}

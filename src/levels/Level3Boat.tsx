@@ -32,7 +32,16 @@ export default function Level3Boat({ quitGame, onNextLevel, character, playSound
         transition: { duration: 3, ease: 'linear' }
       });
     }
-  }, [rocks, isWin, playSound, boatAnim]);
+  }, [rocks, isWin, boatAnim, playSound]);
+
+  const speakInstruction = () => {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance("ลากก้อนหินออกไปให้พ้นทางน้ำ");
+    utterance.lang = 'th-TH';
+    utterance.pitch = 1.3;
+    utterance.rate = 0.95;
+    window.speechSynthesis.speak(utterance);
+  };
 
   const resetLevel = () => {
     setRocks([
@@ -74,8 +83,18 @@ export default function Level3Boat({ quitGame, onNextLevel, character, playSound
         
         {/* Instruction */}
         {!isWin && !rocks.every(r => r.removed) && (
-          <div className="absolute top-10 left-1/2 -translate-x-1/2 bg-white/80 px-6 py-3 rounded-full text-xl font-bold text-sky-700 shadow-md animate-bounce z-30 flex items-center gap-2">
-            <AlertTriangle className="text-amber-500" /> ลากก้อนหินออกไปให้พ้นทางน้ำ! 🪨
+          <div className="absolute top-10 left-1/2 -translate-x-1/2 bg-white/90 px-6 py-3 rounded-full text-xl font-bold text-sky-700 shadow-md animate-bounce z-30 flex items-center gap-3">
+            <div className="flex items-center gap-2">
+              <AlertTriangle className="text-amber-500" /> 
+              <span>ลากก้อนหินออกไปให้พ้นทางน้ำ! 🪨</span>
+            </div>
+            <button 
+              onClick={speakInstruction}
+              className="bg-sky-100 p-2 rounded-full hover:bg-sky-200 transition-colors shadow-sm active:scale-95 ml-2"
+              title="ฟังคำอธิบาย"
+            >
+              <Volume2 size={24} className="text-sky-600" />
+            </button>
           </div>
         )}
 
@@ -137,8 +156,8 @@ export default function Level3Boat({ quitGame, onNextLevel, character, playSound
             onDragEnd={(_, info) => handleDragEnd(rock.id, info)}
             initial={{ x: rock.startX, y: rock.startY, scale: 1 }}
             animate={rock.removed ? { scale: 0.5, opacity: 0.5 } : { scale: 1, opacity: 1 }}
-            className={`absolute z-20 text-7xl cursor-grab active:cursor-grabbing drop-shadow-md ${rock.removed ? 'pointer-events-none' : ''}`}
-            whileHover={!rock.removed ? { scale: 1.1 } : {}}
+            className={`absolute z-20 text-7xl cursor-grab active:cursor-grabbing ${rock.removed ? 'pointer-events-none drop-shadow-md' : 'drop-shadow-[0_0_20px_rgba(255,255,255,0.8)] animate-pulse'}`}
+            whileHover={!rock.removed ? { scale: 1.15 } : {}}
             whileTap={!rock.removed ? { scale: 0.95 } : {}}
           >
             🪨

@@ -46,6 +46,15 @@ export default function Level2Dam({ quitGame, onNextLevel, character, playSound,
     }
   }, [isPressing, isWin, playSound, turbineAnim, waterAnim]);
 
+  const speakInstruction = () => {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance("กดปุ่มค้างไว้เพื่อปล่อยน้ำปั่นไฟ");
+    utterance.lang = 'th-TH';
+    utterance.pitch = 1.3;
+    utterance.rate = 0.95;
+    window.speechSynthesis.speak(utterance);
+  };
+
   const resetLevel = () => {
     setIsPressing(false);
     setPowerGenerated(0);
@@ -82,8 +91,18 @@ export default function Level2Dam({ quitGame, onNextLevel, character, playSound,
         
         {/* Instruction */}
         {!isWin && powerGenerated === 0 && (
-          <div className="absolute top-10 left-1/2 -translate-x-1/2 bg-amber-200/90 px-6 py-3 rounded-full text-xl font-bold text-amber-800 shadow-[0_0_20px_#fcd34d] animate-bounce z-30 flex items-center gap-2">
-            <Zap className="fill-amber-500" /> กดปุ่มค้างไว้เพื่อปล่อยน้ำปั่นไฟ!
+          <div className="absolute top-10 left-1/2 -translate-x-1/2 bg-amber-200/95 px-6 py-3 rounded-full text-xl font-bold text-amber-800 shadow-[0_0_20px_#fcd34d] animate-bounce z-30 flex items-center gap-3">
+            <div className="flex items-center gap-2">
+              <Zap className="fill-amber-500" /> 
+              <span>กดปุ่มค้างไว้เพื่อปล่อยน้ำปั่นไฟ!</span>
+            </div>
+            <button 
+              onClick={speakInstruction}
+              className="bg-amber-100/50 p-2 rounded-full hover:bg-amber-100 transition-colors shadow-sm active:scale-95 ml-2"
+              title="ฟังคำอธิบาย"
+            >
+              <Volume2 size={24} className="text-amber-700" />
+            </button>
           </div>
         )}
 
@@ -118,12 +137,12 @@ export default function Level2Dam({ quitGame, onNextLevel, character, playSound,
                 onTouchStart={() => setIsPressing(true)}
                 onTouchEnd={() => setIsPressing(false)}
                 className={`
-                  w-28 h-28 rounded-full border-6 font-black text-2xl shadow-2xl transition-all select-none touch-none cursor-pointer
-                  ${isPressing ? 'bg-amber-500 border-amber-600 scale-95 shadow-none text-white' : 'bg-rose-500 border-rose-600 text-white pb-3'}
+                  w-40 h-40 rounded-full border-8 font-black text-4xl shadow-2xl transition-all select-none touch-none cursor-pointer flex flex-col items-center justify-center gap-2
+                  ${isPressing ? 'bg-amber-500 border-amber-600 scale-95 shadow-none text-white' : 'bg-rose-500 border-rose-600 text-white pb-3 animate-pulse'}
                 `}
-                style={!isPressing ? { boxShadow: '0 8px 0 #9f1239' } : {}}
+                style={!isPressing ? { boxShadow: '0 12px 0 #9f1239' } : {}}
               >
-                กดน้ำ!
+                {/* Empty button, just pulse effect */}
               </button>
            </div>
         </div>
