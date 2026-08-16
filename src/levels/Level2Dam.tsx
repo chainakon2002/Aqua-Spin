@@ -3,7 +3,7 @@ import { motion, useAnimation } from 'framer-motion';
 import { Home, Volume2, VolumeX, RotateCcw, Zap } from 'lucide-react';
 import CharacterSprite from '../components/CharacterSprite';
 
-export default function Level2Dam({ quitGame, onNextLevel, character, playSound, isSoundOn, toggleSound }: any) {
+export default function Level2Dam({ quitGame, onNextLevel, character, playerName, playSound, isSoundOn, toggleSound }: any) {
   const [isPressing, setIsPressing] = useState(false);
   const [powerGenerated, setPowerGenerated] = useState(0);
   const [isWin, setIsWin] = useState(false);
@@ -241,7 +241,7 @@ export default function Level2Dam({ quitGame, onNextLevel, character, playSound,
         >
           <div className="bg-slate-800 p-8 rounded-3xl text-center border-8 border-amber-400 shadow-[0_0_50px_#fbbf24] max-w-md">
              <div className="text-7xl mb-4">💡🌟</div>
-             <h2 className="text-4xl font-black text-amber-400 mb-4">เก่งมาก!</h2>
+             <h2 className="text-4xl font-black text-amber-400 mb-4">เก่งมาก {playerName}!</h2>
              <p className="text-2xl text-slate-200 font-bold mb-8">
                พลังงานน้ำเปลี่ยนเป็นไฟฟ้า ช่วยเปิดไฟให้หมู่บ้านสว่างไสว!
              </p>

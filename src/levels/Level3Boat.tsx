@@ -3,7 +3,7 @@ import { motion, useAnimation } from 'framer-motion';
 import { Home, Volume2, VolumeX, RotateCcw, AlertTriangle } from 'lucide-react';
 import CharacterSprite from '../components/CharacterSprite';
 
-export default function Level3Boat({ quitGame, onNextLevel, character, playSound, isSoundOn, toggleSound }: any) {
+export default function Level3Boat({ quitGame, onNextLevel, character, playerName, playSound, isSoundOn, toggleSound }: any) {
   const [rocks, setRocks] = useState([
     { id: 1, removed: false, startX: 200, startY: 250 },
     { id: 2, removed: false, startX: 350, startY: 220 },
@@ -174,7 +174,7 @@ export default function Level3Boat({ quitGame, onNextLevel, character, playSound
         >
           <div className="bg-sky-100 p-8 rounded-3xl text-center border-8 border-sky-400 shadow-[0_0_50px_#38bdf8] max-w-md">
              <div className="text-7xl mb-4">⛵🦆</div>
-             <h2 className="text-4xl font-black text-sky-500 mb-4">เย้! เดินทางสำเร็จ!</h2>
+             <h2 className="text-4xl font-black text-sky-500 mb-4">เย้ {playerName}! เดินทางสำเร็จ!</h2>
              <p className="text-2xl text-slate-700 font-bold mb-8">
                เมื่อไม่มีสิ่งกีดขวาง น้ำจะไหลได้แรงและผลักเรือไปข้างหน้าได้!
              </p>

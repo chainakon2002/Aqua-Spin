@@ -97,7 +97,7 @@ const ALL_QUIZ_DATA = [
   }
 ];
 
-export default function Level4Quiz({ quitGame, onNextLevel, character, playSound, isSoundOn, toggleSound }: any) {
+export default function Level4Quiz({ quitGame, onNextLevel, character, playerName, playSound, isSoundOn, toggleSound }: any) {
   const [activeQuiz, setActiveQuiz] = useState<typeof ALL_QUIZ_DATA>([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
@@ -315,9 +315,9 @@ export default function Level4Quiz({ quitGame, onNextLevel, character, playSound
                 ))}
               </div>
               
-              <h1 className="text-5xl font-black text-amber-500 mb-2">
-                {score === activeQuiz.length ? 'ยอดเยี่ยมมาก!' : 'เก่งมากจ้า!'}
-              </h1>
+              <h3 className="text-3xl sm:text-5xl font-black text-amber-500 mb-4">
+                {score === activeQuiz.length ? `ยอดเยี่ยมมาก ${playerName}!` : `เก่งมากจ้า ${playerName}!`}
+              </h3>
               <h2 className="text-4xl font-black text-sky-500 mb-6">ได้คะแนน {score} / {activeQuiz.length}</h2>
               <div className="flex gap-4 w-full">
                 <button 
