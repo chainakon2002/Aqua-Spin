@@ -8,6 +8,7 @@ import Level4Quiz from './levels/Level4Quiz';
 import { useAudio } from './hooks/useAudio';
 import CharacterSprite, { CHARACTERS_DATA, type CharacterInfo } from './components/CharacterSprite';
 import HeroScene from './components/HeroScene';
+import { getScores, saveScore, type ScoreEntry } from './firebase';
 
 function App() {
   const [currentLevel, setCurrentLevel] = useState(0); // 0 = Char select, 1-4 = Levels, 5 = End
@@ -17,18 +18,15 @@ function App() {
   const [levelStartTime, setLevelStartTime] = useState<number>(0);
   const { initAudio, playSound, isSoundOn, toggleSound } = useAudio();
   const [hasStarted, setHasStarted] = useState(false);
-  const [leaderboard, setLeaderboard] = useState<any[]>([]);
+  const [leaderboard, setLeaderboard] = useState<ScoreEntry[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Fetch leaderboard on mount
   useEffect(() => {
     const fetchLeaderboard = async () => {
       try {
-        const res = await fetch('/api/scores');
-        if (res.ok) {
-          const data = await res.json();
-          setLeaderboard(data);
-        }
+        const data = await getScores();
+        setLeaderboard(data);
       } catch (error) {
         console.error("Failed to fetch leaderboard:", error);
       }
@@ -39,26 +37,15 @@ function App() {
   // Fetch leaderboard when game ends
   useEffect(() => {
     if (currentLevel === 5 && selectedCharacter) {
-      const saveScore = async () => {
+      const handleSaveScore = async () => {
         setIsSubmitting(true);
         try {
-          // 1. Save score
-          await fetch('/api/scores', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              playerName,
-              characterId: selectedCharacter.id,
-              totalScore
-            })
-          });
+          // 1. Save score to Firebase
+          await saveScore(playerName, selectedCharacter.id, totalScore);
 
           // 2. Fetch updated leaderboard
-          const res = await fetch('/api/scores');
-          if (res.ok) {
-            const data = await res.json();
-            setLeaderboard(data);
-          }
+          const data = await getScores();
+          setLeaderboard(data);
         } catch (error) {
           console.error("Failed to save score:", error);
         } finally {
@@ -66,7 +53,7 @@ function App() {
           playSound('win');
         }
       };
-      saveScore();
+      handleSaveScore();
     }
   }, [currentLevel]);
 
